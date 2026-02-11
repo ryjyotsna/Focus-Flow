@@ -23,3 +23,12 @@ const notificationSound = document.getElementById('notificationSound');
 const rainSound = document.getElementById('rainSound');
 const rainToggle = document.getElementById('rainToggle');
 
+let isRainPlaying = false;
+
+function updateDisplay() {
+    const mins = Math.floor(totalSeconds / 60);
+    const secs = totalSeconds % 60;
+    minutesDisplay.textContent = String(mins).padStart(2, '0');
+    secondsDisplay.textContent = String(secs).padStart(2, '0');
+}
+
