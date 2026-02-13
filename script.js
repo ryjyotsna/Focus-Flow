@@ -31,4 +31,80 @@ function updateDisplay() {
     minutesDisplay.textContent = String(mins).padStart(2, '0');
     secondsDisplay.textContent = String(secs).padStart(2, '0');
 }
+function updateClock() {
+    const now = new Date();
+    let hours = now.getHours();
+    const minutes = now.getMinutes();
+    const ampm = hours >= 12 ? 'PM' : 'AM';
 
+    hours = hours % 12;
+    hours = hours ? hours : 12; // 0 should be 12
+
+    const timeString = `${hours}:${String(minutes).padStart(2, '0')}`;
+    currentTimeDisplay.textContent = timeString;
+    currentPeriodDisplay.textContent = ampm;
+}
+
+function startTimer() {
+    if (isRunning) {
+        pauseTimer();
+        return;
+    }
+
+    isRunning = true;
+    startBtn.textContent = 'Pause';
+    watcher.classList.add('active');
+
+    timerInterval = setInterval(() => {
+        if (totalSeconds > 0) {
+            totalSeconds--;
+            updateDisplay();
+        } else {
+            completeSession();
+        }
+    }, 1000);
+}
+
+function pauseTimer() {
+    isRunning = false;
+    startBtn.textContent = 'Start';
+    watcher.classList.remove('active');
+    clearInterval(timerInterval);
+}
+
+function resetTimer() {
+    pauseTimer();
+    isWorkTime = true;
+    totalSeconds = workMinutes * 60;
+    updateDisplay();
+    motivationDisplay.textContent = "You're building momentum — don't stop now!";
+}
+
+function completeSession() {
+    clearInterval(timerInterval);
+    isRunning = false;
+    startBtn.textContent = 'Start';
+    watcher.classList.remove('active');
+
+    // Play notification sound
+    playNotificationSound();
+
+    if (isWorkTime) {
+        motivationDisplay.textContent = "Great work! Time for a break!";
+        isWorkTime = false;
+        totalSeconds = breakMinutes * 60;
+    } else {
+        motivationDisplay.textContent = "Break's over! Ready to focus?";
+        isWorkTime = true;
+        totalSeconds = workMinutes * 60;
+    }
+
+    updateDisplay();
+
+    if ('Notification' in window && Notification.permission === 'granted') {
+        new Notification('Focus Flow', {
+            body: isWorkTime ? 'Time to work!' : 'Time for a break!',
+            icon: '⏱️'
+        });
+    }
+}
