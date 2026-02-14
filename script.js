@@ -108,3 +108,30 @@ function completeSession() {
         });
     }
 }
+function playNotificationSound() {
+    try {
+        // Reset and play the audio
+        notificationSound.currentTime = 0;
+        notificationSound.play().catch(error => {
+            console.error('Error playing notification sound:', error);
+        });
+        console.log('Notification sound played');
+    } catch (error) {
+        console.error('Error playing notification sound:', error);
+    }
+}
+
+function toggleRainSound() {
+    if (isRainPlaying) {
+        rainSound.pause();
+        rainSound.currentTime = 0;
+        rainToggle.classList.remove('active');
+        isRainPlaying = false;
+    } else {
+        rainSound.play().catch(error => {
+            console.error('Error playing rain sound:', error);
+        });
+        rainToggle.classList.add('active');
+        isRainPlaying = true;
+    }
+}
