@@ -135,3 +135,12 @@ function toggleRainSound() {
         isRainPlaying = true;
     }
 }
+function openSettings() {
+    workTimeInput.value = workMinutes;
+    breakTimeInput.value = breakMinutes;
+    settingsModal.classList.add('active');
+}
+
+function closeSettings() {
+    settingsModal.classList.remove('active');
+}
