@@ -144,3 +144,9 @@ function openSettings() {
 function closeSettings() {
     settingsModal.classList.remove('active');
 }
+function saveSettings() {
+    workMinutes = parseInt(workTimeInput.value) || 25;
+    breakMinutes = parseInt(breakTimeInput.value) || 5;
+    resetTimer();
+    closeSettings();
+}
