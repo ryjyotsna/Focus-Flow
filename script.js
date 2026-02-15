@@ -150,3 +150,18 @@ function saveSettings() {
     resetTimer();
     closeSettings();
 }
+startBtn.addEventListener('click', startTimer);
+resetBtn.addEventListener('click', resetTimer);
+settingsBtn.addEventListener('click', openSettings);
+saveBtn.addEventListener('click', saveSettings);
+cancelBtn.addEventListener('click', closeSettings);
+rainToggle.addEventListener('click', toggleRainSound);
+
+if ('Notification' in window) {
+    Notification.requestPermission();
+}
+
+updateClock();
+setInterval(updateClock, 1000);
+
+updateDisplay();
